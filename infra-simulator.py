@@ -17,17 +17,42 @@ def json_to_machine():
                 data = json.load(f)
                 machines.append(Machine(name=data["name"],OS=data["OS"],CPU=data["CPU"],RAM=data["RAM"],storage=data["storage"],inEnv=data["inEnv"]))
 
+#Runs script and pushes output and errors to log
+#Need both in try and except incase an error doesn't cause the script to fail (double brackets)
 def run_setup_script():
    try:
       logger.info("Starting Nginx Installer")
-      subprocess.run(["sudo", "scripts/setup_nginx.sh"],check =True)
+      result = subprocess.run(["sudo", "scripts/setup_nginx.sh"],check =True, capture_output=True, text=True)
+      if result.stdout:
+         print(result.stdout)
+         logger.info(result.stdout)
+      if result.stderr:
+         logger.error(result.stderr)
       logger.info("[INFO] Nginx installation conpleted.")
+
    except subprocess.CalledProcessError as e:
       logger.error(f"[ERROR] Failed to run Nginx installation due to Error: {e}")
+      if e.stdout:
+         logger.info(e.stdout)
+         print(e.stdout)
+      if e.stderr:
+         print(e.stderr)
+         logger.error(e.stderr)
+
+      
 
 
 def get_user_input():
-   json_to_machine()
+   logger.info("STARTING INFRASTRUCTURE SIMULATOR")
+   logger.info("Loading pre-existing machines")
+   try:
+      json_to_machine()
+      logger.info("SUCCESFULY loaded pre-existing machines")
+   except FileNotFoundError as e:
+      logger.error(f"Path does not exist, error: {e}")
+   except PermissionError as e:
+      logger.error(f"Permission denied, with error: {e}")
+
    while True:
       print("Current Machines:")
       for _machine in machines:
@@ -37,7 +62,7 @@ def get_user_input():
          for _machine in machines:
             run_setup_script()
          break
-
+      logger.info("Starting Creation of New Machine")
       _machine=newMachine(usrInput)
       if _machine:
          machines.append(_machine)

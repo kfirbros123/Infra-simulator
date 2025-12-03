@@ -75,7 +75,7 @@ class Machine(BaseModel):
     
 
     def log_creation(self):
-        logger.info(f"Created/Altered instance: {self.name} with parameters: {self.toDict()}")
+        logger.info(f"Successfuly created instance: {self.name} with parameters: {self.toDict()}")
   
     
 

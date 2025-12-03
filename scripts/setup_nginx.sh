@@ -1,5 +1,5 @@
 #/bin/bash
-
+set -e
 HTML_SOURCE="configs/index.html"
 HTML_TARGET="/var/www/html/index.html"
 
@@ -17,6 +17,7 @@ else
 fi
 
 echo "Replacing index.html..."
+
 
 if [ ! -f "$HTML_SOURCE" ]; then
     echo "Error: Source file '$HTML_SOURCE' does not exist. EXITING INSTSLLATION SCRIPT"
