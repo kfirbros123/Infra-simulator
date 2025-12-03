@@ -1,8 +1,0 @@
-{
-    "name": "web server 2",
-    "OS": "ubuntu",
-    "CPU": 4,
-    "RAM": 4,
-    "storage": 10,
-    "inEnv": "dev"
-}
