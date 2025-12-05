@@ -15,7 +15,7 @@ class Machine(BaseModel):
 #VALIDATORS
     @field_validator("name")
     def validate_name(cls, value):
-        if len(value) > 20:
+        if (len(value) == 0 or len(value) > 20):
             raise ValueError(" Name cannot exceed 20 characters")
         return value
 
