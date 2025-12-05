@@ -44,14 +44,14 @@ def run_setup_script():
 
 def get_user_input():
    logger.info("STARTING INFRASTRUCTURE SIMULATOR")
-   logger.info("Loading pre-existing machines")
+   logger.info("Loading pre-existing machines...")
    try:
       json_to_machine()
       logger.info("SUCCESFULY loaded pre-existing machines")
    except FileNotFoundError as e:
-      logger.error(f"Path does not exist, error: {e}")
+      logger.error(f"Path does not exist, error: \n{e}")
    except PermissionError as e:
-      logger.error(f"Permission denied, with error: {e}")
+      logger.error(f"Permission denied, with error: \n{e}")
 
    while True:
       print("Current Machines:")
@@ -59,13 +59,19 @@ def get_user_input():
             print(f"{_machine.name}")
       usrInput=input("\n\nEnter New Machine Name To Create (or 'done' to finish):")
       if usrInput.lower() == 'done' :
+         print("Before exiting, infra-simulator will install nginx ")
          for _machine in machines:
             run_setup_script()
+         print("Exiting Infra-Simulator Application")
+         logger.info("Exiting Infra-Simulator Application")
          break
       logger.info("Starting Creation of New Machine")
       _machine=newMachine(usrInput)
       if _machine:
          machines.append(_machine)
+         with open(f'configs/{_machine.name}-instance.json', 'w') as json_file:
+            json.dump( _machine.toDict(), json_file, indent=4)
+         logger.info(f"Config file generated: configs/{_machine.name}-instance.json (machine: {_machine.name}).")
 
 
 

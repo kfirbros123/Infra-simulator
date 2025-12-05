@@ -57,11 +57,6 @@ class Machine(BaseModel):
             returnString = returnString + (f"{key} : {_dict[key]}\n")
         return returnString
     
-    #toJson saves the config of the machine into its own json file MACHINE_NAME-instance.json in directory configs
-    def toJson(self):
-        with open(f'configs/{self.name}-instance.json', 'w') as json_file:
-            json.dump( self.toDict(), json_file, indent=4)
-    
 
     def toDict(self):
         return {
@@ -92,7 +87,6 @@ def newMachine(_name:str):
     try:
         _machine = Machine(name=_name,OS=_OS,CPU=_CPU,RAM=_RAM,storage=_storage,inEnv=_inEnv)
         print(" User input is  valid :")
-        _machine.toJson()
         _machine.log_creation()
         return _machine
 
