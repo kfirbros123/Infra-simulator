@@ -27,16 +27,17 @@ def run_setup_script():
          print(result.stdout)
          logger.info(result.stdout)
       if result.stderr:
+         print(result.stderr)
          logger.error(result.stderr)
-      logger.info("[INFO] Nginx installation conpleted.")
+      logger.info("Nginx installation conpleted.")
 
    except subprocess.CalledProcessError as e:
-      logger.error(f"[ERROR] Failed to run Nginx installation due to Error: {e}")
+      logger.error(f"Failed to complete Nginx installation due to Error: \n{e}")
       if e.stdout:
          logger.info(e.stdout)
          print(e.stdout)
       if e.stderr:
-         print(e.stderr)
+         print("Failed to complete Nginx installation, Exiting...")
          logger.error(e.stderr)
 
       
