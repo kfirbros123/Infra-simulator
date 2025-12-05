@@ -40,6 +40,9 @@ Each of these values is validated using a Pydantic model to ensure correctness a
 ## Running the Program
 
 ```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install pydantic
 python3 infra_simulator.py
 ```
 
